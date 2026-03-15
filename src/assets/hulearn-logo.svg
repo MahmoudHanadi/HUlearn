@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="hulearn-bg" x1="20" y1="16" x2="108" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F35545" />
+      <stop offset="0.5" stop-color="#F3A527" />
+      <stop offset="1" stop-color="#169E8A" />
+    </linearGradient>
+    <linearGradient id="hulearn-glow" x1="34" y1="24" x2="92" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF6D7" stop-opacity="0.92" />
+      <stop offset="1" stop-color="#FFF6D7" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="30" fill="#102637" />
+  <rect x="18" y="18" width="92" height="92" rx="24" fill="url(#hulearn-bg)" />
+  <path
+    d="M36 26C49 18 78 18 94 30C82 26 68 28 57 35C47 42 39 38 36 26Z"
+    fill="url(#hulearn-glow)"
+  />
+  <path
+    d="M34 34H46V54H64V34H76V94H64V66H46V94H34V34Z"
+    fill="#102637"
+  />
+  <path
+    d="M68 34H80V60C80 70.493 85.203 76 94 76C102.797 76 108 70.493 108 60V34H120V62C120 82.435 109.102 94 94 94C78.898 94 68 82.435 68 62V34Z"
+    fill="#FFF8F0"
+    fill-opacity="0.94"
+  />
+  <circle cx="94" cy="35" r="8" fill="#102637" fill-opacity="0.18" />
+</svg>
