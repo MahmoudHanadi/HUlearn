@@ -1,30 +1,31 @@
 import { topicLabels } from '../content/lessons'
-import { curatedLessons } from '../content/lessons-curated'
-import type { Lesson } from '../content/types'
 import {
   formatPercent,
   getLessonProgress,
   type ProgressState,
 } from '../lib/app-state'
+import type { ResolvedLesson } from '../practice/types'
 
 interface CuratedLearningViewProps {
+  lessons: ResolvedLesson[]
   progress: ProgressState
   onOpenLesson: (lessonId: string) => void
   onOpenLibrary: () => void
 }
 
-function compareLessons(left: Lesson, right: Lesson) {
+function compareLessons(left: ResolvedLesson, right: ResolvedLesson) {
   return (left.sequence ?? Number.MAX_SAFE_INTEGER) - (right.sequence ?? Number.MAX_SAFE_INTEGER)
 }
 
 export function CuratedLearningView({
+  lessons,
   progress,
   onOpenLesson,
   onOpenLibrary,
 }: CuratedLearningViewProps) {
-  const orderedLessons = [...curatedLessons].sort(compareLessons)
+  const orderedLessons = [...lessons].sort(compareLessons)
   const totalPracticeSets = orderedLessons.reduce(
-    (sum, lesson) => sum + lesson.practiceSets.length,
+    (sum, lesson) => sum + lesson.activities.length,
     0,
   )
   const phaseNames = [...new Set(orderedLessons.map((lesson) => lesson.phase ?? 'Path'))]
@@ -46,8 +47,9 @@ export function CuratedLearningView({
         <h1>Follow the guided 0 to A2 route.</h1>
         <p className="hero-text">
           This section turns the Reddit and Catch Budapest resource path into a
-          sequenced study route: sound system first, then numbers, scripts,
-          high-frequency verbs, daily transactions, and finally A2-style tasks.
+          sequenced study route: sound system first, then counting and money,
+          calendar language, clock time, scripts, high-frequency verbs, daily
+          transactions, and finally A2-style tasks.
         </p>
         <div className="hero-actions">
           <button

@@ -31,6 +31,19 @@ export const conversationLessons: Lesson[] = [
         title: 'Time-based greetings',
         body:
           'Hungarian often uses fixed greetings for morning, daytime, and evening. Jó éjszakát is different: it means good night and is used when someone is going to sleep or turning in, not as a general hello.',
+        tables: [
+          {
+            title: 'Practical greeting windows from the workbook page',
+            columns: ['Time', 'Greeting'],
+            rows: [
+              ['7:00-9:00', 'Jó reggelt (kívánok)!'],
+              ['9:00-18:00', 'Jó napot (kívánok)!'],
+              ['18:00-', 'Jó estét (kívánok)!'],
+            ],
+            note:
+              'Jó éjszakát is separate: use it when someone is going to sleep, not as a normal arrival greeting.',
+          },
+        ],
         tips: [
           'Jó reggelt = morning',
           'Jó napot kívánok = daytime / polite',
@@ -42,6 +55,11 @@ export const conversationLessons: Lesson[] = [
         title: 'Informal vs polite register',
         body:
           'Szia, Helló, and Köszi are informal and work with friends, classmates, and familiar contacts. Jó napot kívánok, Köszönöm szépen, and Viszontlátásra are safer with strangers, staff, or officials.',
+      },
+      {
+        title: 'Singular and plural informal greetings',
+        body:
+          'Use Szia with one person and Sziasztok with more than one person. The same plural form can work both when arriving and when leaving in casual situations.',
       },
       {
         title: 'Greeting and goodbye can be different choices',
@@ -75,7 +93,9 @@ export const conversationLessons: Lesson[] = [
       { hungarian: 'Köszönöm', english: 'Thank you' },
       { hungarian: 'Köszönöm szépen', english: 'Thank you very much', note: 'polite / common' },
       { hungarian: 'Szívesen', english: 'You are welcome' },
+      { hungarian: 'Nagyon szívesen', english: 'You are very welcome', note: 'polite / warm reply' },
       { hungarian: 'Nincs mit', english: 'No problem / You are welcome' },
+      { hungarian: 'Sziasztok', english: 'Hi everyone / Bye everyone', note: 'informal plural' },
       { hungarian: 'Viszlát', english: 'Goodbye', note: 'neutral / common' },
       { hungarian: 'Viszontlátásra', english: 'Goodbye', note: 'more formal' },
     ],
@@ -119,6 +139,11 @@ export const conversationLessons: Lesson[] = [
         hungarian: 'Jó éjszakát! Holnap beszélünk.',
         english: 'Good night. We will talk tomorrow.',
         focus: 'Bedtime goodbye',
+      },
+      {
+        hungarian: 'Sziasztok! Hogy vagytok?',
+        english: 'Hi everyone. How are you all?',
+        focus: 'Plural informal greeting',
       },
     ],
     practiceSets: [
@@ -209,6 +234,30 @@ export const conversationLessons: Lesson[] = [
             answer: 'Köszi',
             note: 'Use the informal thanks word with friends.',
           },
+          {
+            id: 'g11',
+            prompt: 'It is 19:45 and you greet someone when you arrive.',
+            template: '___!',
+            choices: ['Jó estét', 'Jó reggelt', 'Jó éjszakát'],
+            answer: 'Jó estét',
+            note: 'This follows the evening arrival window from the workbook page.',
+          },
+          {
+            id: 'g12',
+            prompt: 'It is 23:41 and someone is heading to bed.',
+            template: '___!',
+            choices: ['Jó éjszakát', 'Jó estét', 'Jó napot kívánok'],
+            answer: 'Jó éjszakát',
+            note: 'Late-night bedtime uses good night, not the evening arrival greeting.',
+          },
+          {
+            id: 'g13',
+            prompt: 'You greet several friends at once.',
+            template: '___!',
+            choices: ['Sziasztok', 'Szia', 'Viszontlátásra'],
+            answer: 'Sziasztok',
+            note: 'Use the plural informal greeting with more than one person.',
+          },
         ],
       },
       {
@@ -282,6 +331,14 @@ export const conversationLessons: Lesson[] = [
             answer: 'Jó éjszakát',
             note: 'The setting makes this a true good-night scene.',
           },
+          {
+            id: 'gr9',
+            prompt: 'Reply warmly after someone says “Köszönöm szépen.”',
+            template: '___ .',
+            choices: ['Nagyon szívesen', 'Szia', 'Jó reggelt'],
+            answer: 'Nagyon szívesen',
+            note: 'This is a fuller, warmer reply than the shortest default answer.',
+          },
         ],
       },
       {
@@ -300,6 +357,8 @@ export const conversationLessons: Lesson[] = [
           { left: 'Köszönöm szépen', right: 'polite thank you very much' },
           { left: 'Szívesen', right: 'default reply to thank you' },
           { left: 'Nincs mit', right: 'casual no problem / you are welcome' },
+          { left: 'Nagyon szívesen', right: 'very warm / very polite you are welcome' },
+          { left: 'Sziasztok', right: 'informal hi / bye to more than one person' },
           { left: 'Viszontlátásra', right: 'formal goodbye when leaving' },
         ],
       },
@@ -323,6 +382,11 @@ export const conversationLessons: Lesson[] = [
             scenario: 'A friend arrives at your place and you greet them casually.',
             answer: 'Szia!',
             note: 'Informal friend setting.',
+          },
+          {
+            scenario: 'You greet several friends when they enter the room.',
+            answer: 'Sziasztok!',
+            note: 'Plural informal greeting.',
           },
           {
             scenario: 'You enter a restaurant in the evening.',
@@ -353,6 +417,11 @@ export const conversationLessons: Lesson[] = [
             scenario: 'Someone is going to sleep and you want to say good night.',
             answer: 'Jó éjszakát!',
             note: 'Use for bedtime, not first contact.',
+          },
+          {
+            scenario: 'It is 7:30 a.m. and you greet a neighbor politely.',
+            answer: 'Jó reggelt!',
+            note: 'Morning greeting window.',
           },
           {
             scenario: 'You want to thank a close friend quickly and casually.',
@@ -530,14 +599,37 @@ export const conversationLessons: Lesson[] = [
         title: 'Price answers',
         body:
           'Price answers often come as a number plus forint. Even partial comprehension here is enough to keep a transaction moving.',
+        tables: [
+          {
+            title: 'Mini snack-bar price list from the workbook page',
+            columns: ['Item', 'Price'],
+            rows: [
+              ['rágó', '120 Ft'],
+              ['csoki', '105 Ft'],
+              ['tea', '100 Ft'],
+              ['kóla (0,5 l)', '250 Ft'],
+              ['kávé', '120 Ft'],
+              ['sajtos szendvics', '150 Ft'],
+              ['pogácsa', '70 Ft'],
+              ['hamburger', '275 Ft'],
+            ],
+            note:
+              'Concrete prices make the Mennyibe kerül...? exchange easier to rehearse as a real transaction.',
+          },
+        ],
       },
     ],
     vocabulary: [
       { hungarian: 'kávé', english: 'coffee' },
       { hungarian: 'tea', english: 'tea' },
       { hungarian: 'kóla', english: 'cola' },
+      { hungarian: 'csoki', english: 'chocolate' },
       { hungarian: 'pogácsa', english: 'savory pastry' },
       { hungarian: 'szendvics', english: 'sandwich' },
+      { hungarian: 'sajtos szendvics', english: 'cheese sandwich' },
+      { hungarian: 'hamburger', english: 'hamburger' },
+      { hungarian: 'rágó', english: 'chewing gum' },
+      { hungarian: 'Tessék!', english: 'Here you are.', note: 'seller handing something over' },
       { hungarian: 'forint', english: 'forint' },
     ],
     examples: [
@@ -555,6 +647,16 @@ export const conversationLessons: Lesson[] = [
         hungarian: 'A tea kétszáz forint.',
         english: 'The tea is two hundred forints.',
         focus: 'Simple price answer',
+      },
+      {
+        hungarian: 'A hamburger kétszázhetvenöt forint.',
+        english: 'The hamburger is two hundred seventy-five forints.',
+        focus: 'Specific menu price',
+      },
+      {
+        hungarian: 'Kérek egy sajtos szendvicset és egy kólát.',
+        english: 'I would like a cheese sandwich and a cola.',
+        focus: 'Two-item order',
       },
     ],
     practiceSets: [
@@ -589,6 +691,46 @@ export const conversationLessons: Lesson[] = [
             answer: 'forint',
             note: 'For beginner practice, number + forint is enough.',
           },
+          {
+            id: 'c4',
+            prompt: 'Answer the hamburger price question.',
+            template: 'A hamburger ___ forint.',
+            choices: ['kétszázhetvenöt', 'százötven', 'százöt'],
+            answer: 'kétszázhetvenöt',
+            note: 'This uses one of the concrete menu prices from the workbook page.',
+          },
+          {
+            id: 'c5',
+            prompt: 'Answer the cheese sandwich price question.',
+            template: 'A sajtos szendvics ___ forint.',
+            choices: ['százötven', 'kétszázhetvenöt', 'hetven'],
+            answer: 'százötven',
+            note: 'Keep the item and the price together as one chunk.',
+          },
+          {
+            id: 'c6',
+            prompt: 'Order two items politely.',
+            template: 'Kérek egy sajtos szendvicset és egy ___ .',
+            choices: ['kólát', 'tanárt', 'reggelt'],
+            answer: 'kólát',
+            note: 'The workbook dialogue practices longer orders, not only one-item requests.',
+          },
+          {
+            id: 'c7',
+            prompt: 'The seller hands you the order.',
+            template: '___!',
+            choices: ['Tessék', 'Szívesen', 'Szia'],
+            answer: 'Tessék',
+            note: 'Tessék is a common counter-service response when giving something to the customer.',
+          },
+          {
+            id: 'c8',
+            prompt: 'Add the total for a tea and a pogácsa.',
+            template: 'A tea és a pogácsa együtt ___ forint.',
+            choices: ['százhetven', 'háromszázhetven', 'kétszázötven'],
+            answer: 'százhetven',
+            note: 'This mirrors the workbook’s menu-based arithmetic practice.',
+          },
         ],
       },
       {
@@ -601,8 +743,13 @@ export const conversationLessons: Lesson[] = [
           { left: 'kávé', right: 'coffee' },
           { left: 'tea', right: 'tea' },
           { left: 'kóla', right: 'cola' },
+          { left: 'csoki', right: 'chocolate' },
           { left: 'pogácsa', right: 'savory pastry' },
           { left: 'szendvics', right: 'sandwich' },
+          { left: 'sajtos szendvics', right: 'cheese sandwich' },
+          { left: 'hamburger', right: 'hamburger' },
+          { left: 'rágó', right: 'chewing gum' },
+          { left: 'Tessék!', right: 'Here you are.' },
         ],
       },
       createFlashcardPracticeSet({
@@ -627,8 +774,24 @@ export const conversationLessons: Lesson[] = [
             scenario: 'You order a sandwich politely.',
             answer: 'Kérek egy szendvicset.',
           },
+          {
+            scenario: 'You ask how much the hamburger costs.',
+            answer: 'Mennyibe kerül a hamburger?',
+          },
+          {
+            scenario: 'You say: The cheese sandwich is one hundred fifty forints.',
+            answer: 'A sajtos szendvics százötven forint.',
+          },
+          {
+            scenario: 'You order a cheese sandwich and a cola politely.',
+            answer: 'Kérek egy sajtos szendvicset és egy kólát.',
+          },
+          {
+            scenario: 'The server hands over the order.',
+            answer: 'Tessék!',
+          },
         ]),
-        sessionSize: 4,
+        sessionSize: 8,
         frontLabel: 'Situation',
         backLabel: 'Hungarian sentence',
       }),

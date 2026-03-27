@@ -1,4 +1,5 @@
 import { buildScenarioFlashcardCards, createFlashcardPracticeSet } from './practice-helpers'
+import { curatedBootcampNumberLessons } from './lessons-curated-bootcamp'
 import type { Lesson } from './types'
 
 export const curatedLessons: Lesson[] = [
@@ -138,145 +139,14 @@ export const curatedLessons: Lesson[] = [
       },
     ],
   },
-  {
-    id: 'curated-numbers-dates-time',
-    trackId: 'curated-learning',
-    topics: ['numbers', 'time', 'speaking'],
-    level: '0 -> A1',
-    phase: 'Bootcamp',
-    sequence: 2,
-    title: 'Numbers, Dates, and Time',
-    subtitle: 'Use numbers for prices, clocks, dates, and fast practical exchanges.',
-    summary:
-      'This lesson follows the curriculum rule to front-load numbers early. You will use them in prices, appointments, dates, phone numbers, and daily logistics long before you can handle complex grammar.',
-    sourceUnits: ['Reddit step 4', 'Numbers guide'],
-    goals: [
-      'Count with confidence through common shopping and time ranges.',
-      'Recognize prices and basic phone or address numbers.',
-      'Say the date and tell simple clock time.',
-    ],
-    studyFlow: [
-      'Study the number patterns in chunks rather than as isolated items.',
-      'Drill prices, dates, and times aloud every day for a few minutes.',
-      'Use the Foreign Numbers app or a similar drill tool to force quick listening recognition.',
-      'Recycle numbers inside later speaking lessons instead of treating them as a separate topic.',
-    ],
-    resources: [
-      {
-        title: 'Catch Budapest numbers guide',
-        url: 'https://www.catchbudapest.com/hungarian-numbers/',
-        note: 'Core reference for number forms and practical uses.',
-      },
-      {
-        title: 'Foreign Numbers',
-        url: 'https://foreignnumbers.com/',
-        note: 'Quick listening drills for prices, dates, and number recognition.',
-      },
-      {
-        title: 'Reddit guide thread',
-        url: 'https://www.reddit.com/r/hungarian/comments/lg36p9/an_ultimate_guide_to_learning_hungarian_10_steps/',
-        note: 'Reinforces why numbers should be tackled early instead of postponed.',
-      },
-    ],
-    explanations: [
-      {
-        title: 'Numbers are a survival tool',
-        body:
-          'Even a low-level learner needs numbers for shopping, transport, appointments, and identity details. This is why the curriculum brings them forward immediately.',
-      },
-      {
-        title: 'Learn in real formats',
-        body:
-          'Do not stop at counting 1 to 10. Practice phone numbers, prices, dates, and clock time because those are the forms you will actually hear.',
-      },
-      {
-        title: 'Speed matters more than translation',
-        body:
-          'The key skill is rapid recognition. You want to hear a number and respond before mentally translating every part into English.',
-      },
-    ],
-    vocabulary: [
-      { hungarian: 'egy', english: 'one' },
-      { hungarian: 'kettő', english: 'two' },
-      { hungarian: 'tíz', english: 'ten' },
-      { hungarian: 'száz', english: 'hundred' },
-      { hungarian: 'óra', english: 'hour / o’clock' },
-      { hungarian: 'forint', english: 'forint' },
-    ],
-    examples: [
-      {
-        hungarian: 'Két kávé, háromszáz forint.',
-        english: 'Two coffees, three hundred forints.',
-        focus: 'Price pattern',
-      },
-      {
-        hungarian: 'Ma március tizenötödike van.',
-        english: 'Today is March fifteenth.',
-        focus: 'Date pattern',
-      },
-      {
-        hungarian: 'Hat óra van.',
-        english: 'It is six o’clock.',
-        focus: 'Clock time',
-      },
-    ],
-    practiceSets: [
-      {
-        id: 'curated-numbers-fill',
-        type: 'fill',
-        title: 'Complete the practical number phrase',
-        instructions:
-          'Choose the word that best completes each price, date, or time pattern.',
-        questions: [
-          {
-            id: 'cn1',
-            prompt: 'Complete the price phrase.',
-            template: 'Kétszáz ___.',
-            choices: ['forint', 'óra', 'kávé'],
-            answer: 'forint',
-            note: 'For beginner survival speech, number + forint is a high-value chunk.',
-          },
-          {
-            id: 'cn2',
-            prompt: 'Tell the time.',
-            template: 'Három ___ van.',
-            choices: ['óra', 'ember', 'napot'],
-            answer: 'óra',
-            note: 'This is the basic clock pattern for simple time statements.',
-          },
-          {
-            id: 'cn3',
-            prompt: 'Complete the counting sentence.',
-            template: 'Kettő meg öt az ___.',
-            choices: ['hét', 'hat', 'tíz'],
-            answer: 'hét',
-            note: 'Use a small spoken math pattern to make the number automatic.',
-          },
-        ],
-      },
-      {
-        id: 'curated-numbers-match',
-        type: 'match',
-        title: 'Match number words to meaning',
-        instructions:
-          'Match the practical number and time words you will reuse in later lessons.',
-        pairs: [
-          { left: 'egy', right: 'one' },
-          { left: 'kettő', right: 'two' },
-          { left: 'tíz', right: 'ten' },
-          { left: 'száz', right: 'hundred' },
-          { left: 'óra', right: 'hour / o’clock' },
-        ],
-      },
-    ],
-  },
+  ...curatedBootcampNumberLessons,
   {
     id: 'curated-first-script-survival-phrases',
     trackId: 'curated-learning',
     topics: ['scripts', 'introductions', 'speaking'],
     level: 'A1',
     phase: 'A1 Foundations',
-    sequence: 3,
+    sequence: 5,
     title: 'First Script and Survival Phrases',
     subtitle: 'Build a first personal script instead of waiting for “free” conversation.',
     summary:
@@ -408,7 +278,7 @@ export const curatedLessons: Lesson[] = [
     topics: ['present', 'verbs', 'vocabulary'],
     level: 'A1',
     phase: 'A1 Foundations',
-    sequence: 4,
+    sequence: 6,
     title: 'Present Tense and Core Verbs',
     subtitle: 'Use the highest-value verbs before worrying about broad grammar coverage.',
     summary:
@@ -772,7 +642,7 @@ export const curatedLessons: Lesson[] = [
     topics: ['shopping', 'location', 'movement'],
     level: 'A1',
     phase: 'A1 Everyday Use',
-    sequence: 5,
+    sequence: 7,
     title: 'Shopping, Location, and Transactions',
     subtitle: 'Handle café, shop, and navigation exchanges with useful chunks.',
     summary:
@@ -904,7 +774,7 @@ export const curatedLessons: Lesson[] = [
     topics: ['routine', 'introductions', 'speaking'],
     level: 'A1+',
     phase: 'A1 Everyday Use',
-    sequence: 6,
+    sequence: 8,
     title: 'Daily Routine and Self-Profile',
     subtitle: 'Expand the first script into a fuller personal profile and routine.',
     summary:
@@ -1036,7 +906,7 @@ export const curatedLessons: Lesson[] = [
     topics: ['planning', 'travel', 'time'],
     level: 'A2',
     phase: 'A2 Bridge',
-    sequence: 7,
+    sequence: 9,
     title: 'Past, Plans, and Appointments',
     subtitle: 'Move from static beginner speech into short time-based interaction.',
     summary:
@@ -1168,7 +1038,7 @@ export const curatedLessons: Lesson[] = [
     topics: ['listening', 'writing', 'health'],
     level: 'A2',
     phase: 'A2 Consolidation',
-    sequence: 8,
+    sequence: 10,
     title: 'A2 Consolidation and Real-World Tasks',
     subtitle: 'Use immersion, SRS, and speaking to stabilize usable everyday Hungarian.',
     summary:

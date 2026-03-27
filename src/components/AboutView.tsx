@@ -1,12 +1,15 @@
 import { lessons, tracks } from '../content/lessons'
+import { resolveLessons } from '../practice/resolver'
+
+const resolvedLessons = resolveLessons(lessons)
 
 interface AboutViewProps {
   onOpenLibrary: () => void
 }
 
 export function AboutView({ onOpenLibrary }: AboutViewProps) {
-  const practiceSetCount = lessons.reduce(
-    (sum, lesson) => sum + lesson.practiceSets.length,
+  const practiceSetCount = resolvedLessons.reduce(
+    (sum, lesson) => sum + lesson.activities.length,
     0,
   )
 

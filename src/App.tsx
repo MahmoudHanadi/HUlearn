@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { lessons, tracks } from './content/lessons'
+import { lessons as lessonCatalog, tracks } from './content/lessons'
 import { AboutView } from './components/AboutView'
 import { CuratedLearningView } from './components/CuratedLearningView'
 import { Header } from './components/Header'
@@ -11,18 +11,28 @@ import {
   getTrackById,
   navigateTo,
   parseHash,
+  readLearningExpandedPreference,
   readProgress,
-  type ProgressEntry,
   type ProgressState,
   type Route,
+  writeLearningExpandedPreference,
   writeProgress,
 } from './lib/app-state'
+import { updateProgressAfterAttempt } from './practice/progress'
+import { resolveLessons } from './practice/resolver'
+import type { ActivityOutcome } from './practice/types'
+
+const lessons = resolveLessons(lessonCatalog)
+const curatedLessons = lessons.filter((lesson) => lesson.trackId === 'curated-learning')
 
 function App() {
   const [route, setRoute] = useState<Route>(() => parseHash(window.location.hash))
   const [progress, setProgress] = useState<ProgressState>(() => readProgress())
   const [trackFilter, setTrackFilter] = useState('all')
   const [topicFilter, setTopicFilter] = useState('all')
+  const [isLearningExpanded, setIsLearningExpanded] = useState(() =>
+    readLearningExpandedPreference(),
+  )
 
   useEffect(() => {
     if (!window.location.hash) {
@@ -45,6 +55,10 @@ function App() {
   }, [progress])
 
   useEffect(() => {
+    writeLearningExpandedPreference(isLearningExpanded)
+  }, [isLearningExpanded])
+
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [route])
 
@@ -54,9 +68,7 @@ function App() {
       : null
   const currentPractice =
     route.view === 'practice' && currentLesson
-      ? currentLesson.practiceSets.find(
-          (practiceSet) => practiceSet.id === route.practiceId,
-        ) ?? null
+      ? currentLesson.activities.find((activity) => activity.id === route.practiceId) ?? null
       : null
   const currentTrack =
     route.view === 'curated'
@@ -81,30 +93,25 @@ function App() {
     navigateTo({ view: 'practice', lessonId, practiceId })
   }
 
-  function recordPracticeResult(practiceId: string, score: number, total: number) {
-    if (!currentLesson) {
+  function recordPracticeResult(
+    activityId: string,
+    score: number,
+    total: number,
+    outcomes: ActivityOutcome[],
+  ) {
+    if (!currentLesson || !currentPractice || currentPractice.id !== activityId) {
       return
     }
 
-    const ratio = score / total
-
     setProgress((previous) => {
-      const existingEntry = previous[practiceId]
-      const nextEntry: ProgressEntry = {
-        attempts: existingEntry ? existingEntry.attempts + 1 : 1,
-        bestScore: existingEntry
-          ? Math.max(existingEntry.bestScore, ratio)
-          : ratio,
-        lastScore: ratio,
-        lastCompletedAt: new Date().toISOString(),
-        lessonId: currentLesson.id,
-        practiceId,
-      }
-
-      return {
-        ...previous,
-        [practiceId]: nextEntry,
-      }
+      return updateProgressAfterAttempt(
+        previous,
+        currentLesson.id,
+        currentPractice,
+        score,
+        total,
+        outcomes,
+      )
     })
   }
 
@@ -139,6 +146,7 @@ function App() {
       <main className="page">
         {route.view === 'home' ? (
           <HomeView
+            lessons={lessons}
             onOpenLesson={openLesson}
             onTopicFilterChange={setTopicFilter}
             onTrackFilterChange={handleTrackFilterChange}
@@ -150,6 +158,7 @@ function App() {
 
         {route.view === 'curated' ? (
           <CuratedLearningView
+            lessons={curatedLessons}
             onOpenLesson={openLesson}
             onOpenLibrary={() => navigateTo({ view: 'home' })}
             progress={progress}
@@ -163,8 +172,10 @@ function App() {
         {route.view === 'lesson' && currentLesson ? (
           <LessonView
             backLabel={lessonBackLabel}
+            isLearningExpanded={isLearningExpanded}
             lesson={currentLesson}
             onBack={() => navigateTo(lessonBackRoute)}
+            onLearningExpandedChange={setIsLearningExpanded}
             onStartPractice={(practiceId) =>
               openPractice(currentLesson.id, practiceId)
             }
@@ -174,12 +185,12 @@ function App() {
 
         {route.view === 'practice' && currentLesson && currentPractice ? (
           <PracticeView
+            activity={currentPractice}
             lesson={currentLesson}
             onBack={() =>
               navigateTo({ view: 'lesson', lessonId: currentLesson.id })
             }
             onComplete={recordPracticeResult}
-            practiceSet={currentPractice}
             progress={progress}
           />
         ) : null}

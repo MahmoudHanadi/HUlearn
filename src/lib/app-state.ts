@@ -1,6 +1,11 @@
-import type { Lesson, Track } from '../content/types'
-
-export const STORAGE_KEY = 'hulearn-progress-v1'
+import type { Track } from '../content/types'
+import {
+  getActivityProgress,
+  readProgress as readPracticeProgress,
+  type ProgressState,
+  writeProgress as writePracticeProgress,
+} from '../practice/progress'
+import type { ResolvedLesson } from '../practice/types'
 
 export type Route =
   | { view: 'home' }
@@ -9,16 +14,9 @@ export type Route =
   | { view: 'lesson'; lessonId: string }
   | { view: 'practice'; lessonId: string; practiceId: string }
 
-export type ProgressState = Record<string, ProgressEntry>
+export type { ActivityProgressEntry as ProgressEntry, ProgressState } from '../practice/progress'
 
-export interface ProgressEntry {
-  attempts: number
-  bestScore: number
-  lastScore: number
-  lastCompletedAt: string
-  lessonId: string
-  practiceId: string
-}
+const LEARNING_VISIBILITY_KEY = 'hulearn-learning-expanded'
 
 export function parseHash(hash: string): Route {
   const cleanHash = hash.replace(/^#\/?/, '')
@@ -77,21 +75,25 @@ export function navigateTo(route: Route) {
 }
 
 export function readProgress(): ProgressState {
-  const raw = window.localStorage.getItem(STORAGE_KEY)
-
-  if (!raw) {
-    return {}
-  }
-
-  try {
-    return JSON.parse(raw) as ProgressState
-  } catch {
-    return {}
-  }
+  return readPracticeProgress()
 }
 
 export function writeProgress(progress: ProgressState) {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+  writePracticeProgress(progress)
+}
+
+export function readLearningExpandedPreference() {
+  const rawValue = window.localStorage.getItem(LEARNING_VISIBILITY_KEY)
+
+  if (rawValue === null) {
+    return true
+  }
+
+  return rawValue === 'true'
+}
+
+export function writeLearningExpandedPreference(isExpanded: boolean) {
+  window.localStorage.setItem(LEARNING_VISIBILITY_KEY, String(isExpanded))
 }
 
 export function formatPercent(value: number | null) {
@@ -102,36 +104,23 @@ export function formatPercent(value: number | null) {
   return `${Math.round(value * 100)}%`
 }
 
-export function shuffle<T>(items: T[]) {
-  const nextItems = [...items]
-
-  for (let index = nextItems.length - 1; index > 0; index -= 1) {
-    const randomIndex = Math.floor(Math.random() * (index + 1))
-    const current = nextItems[index]
-    nextItems[index] = nextItems[randomIndex]
-    nextItems[randomIndex] = current
-  }
-
-  return nextItems
-}
-
 export function getTrackById(tracks: Track[], trackId: string) {
   return tracks.find((track) => track.id === trackId) ?? tracks[0]
 }
 
 export function getPracticeProgress(progress: ProgressState, practiceId: string) {
-  return progress[practiceId] ?? null
+  return getActivityProgress(progress, practiceId)
 }
 
-export function getLessonProgress(progress: ProgressState, lesson: Lesson) {
-  const entries = lesson.practiceSets
-    .map((practiceSet) => progress[practiceSet.id])
-    .filter((entry): entry is ProgressEntry => Boolean(entry))
+export function getLessonProgress(progress: ProgressState, lesson: ResolvedLesson) {
+  const entries = lesson.activities
+    .map((activity) => progress.activities[activity.id])
+    .filter(Boolean)
 
   if (entries.length === 0) {
     return {
       startedSets: 0,
-      totalSets: lesson.practiceSets.length,
+      totalSets: lesson.activities.length,
       bestAverage: null,
     }
   }
@@ -141,7 +130,7 @@ export function getLessonProgress(progress: ProgressState, lesson: Lesson) {
 
   return {
     startedSets: entries.length,
-    totalSets: lesson.practiceSets.length,
+    totalSets: lesson.activities.length,
     bestAverage,
   }
 }

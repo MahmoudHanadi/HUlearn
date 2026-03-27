@@ -1,13 +1,15 @@
-import { lessons, topicLabels, tracks } from '../content/lessons'
+import { topicLabels, tracks } from '../content/lessons'
 import {
   formatPercent,
   getLessonProgress,
   getTrackById,
   type ProgressState,
 } from '../lib/app-state'
+import type { ResolvedLesson } from '../practice/types'
 import { FilterChip } from './atoms'
 
 interface HomeViewProps {
+  lessons: ResolvedLesson[]
   progress: ProgressState
   trackFilter: string
   topicFilter: string
@@ -17,6 +19,7 @@ interface HomeViewProps {
 }
 
 export function HomeView({
+  lessons,
   progress,
   trackFilter,
   topicFilter,
@@ -25,10 +28,10 @@ export function HomeView({
   onOpenLesson,
 }: HomeViewProps) {
   const totalPracticeSets = lessons.reduce(
-    (sum, lesson) => sum + lesson.practiceSets.length,
+    (sum, lesson) => sum + lesson.activities.length,
     0,
   )
-  const startedPracticeSets = Object.keys(progress).length
+  const startedPracticeSets = Object.keys(progress.activities).length
   const allTopicIds = [...new Set(lessons.flatMap((lesson) => lesson.topics))]
   const filteredLessons = lessons.filter((lesson) => {
     const matchesTrack = trackFilter === 'all' || lesson.trackId === trackFilter
@@ -43,7 +46,7 @@ export function HomeView({
         .flatMap((lesson) => lesson.topics),
     ),
   ]
-  const progressEntries = Object.values(progress)
+  const progressEntries = Object.values(progress.activities)
   const averageBestScore =
     progressEntries.length > 0
       ? progressEntries.reduce((sum, entry) => sum + entry.bestScore, 0) /

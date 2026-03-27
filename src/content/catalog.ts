@@ -48,6 +48,8 @@ export const topicLabels: Record<string, string> = {
   articles: 'Articles',
   descriptions: 'Descriptions',
   numbers: 'Numbers',
+  dates: 'Dates',
+  calendar: 'Calendar',
   time: 'Time',
   shopping: 'Shopping',
   prices: 'Prices',
